@@ -7,7 +7,7 @@ export class Movie extends Component {
   state = {
     movies: [],
     generes: [],
-    pageSize: 1,
+    pageSize: 3,
     currentPage: 1
   };
 
@@ -30,6 +30,7 @@ export class Movie extends Component {
         { id: 8, title: "ewd", genre: "Science", stock: 453, rate: 2.5 }
       ],
       generes: [
+        { text: "All Genre" },
         { text: "Action", id: 1 },
         { text: "Comedy", id: 2 },
         { text: "Technology", id: 3 },
@@ -55,7 +56,7 @@ export class Movie extends Component {
     this.setState({ currentPage: page });
   };
   handleGenereSelet = genere => {
-      this.setState({selectedGenere: genere});
+      this.setState({selectedGenere: genere, currentPage: 1});
   };
   render() {
     const { pageSize, currentPage, movies: allMovies, selectedGenere } = this.state;
@@ -63,7 +64,8 @@ export class Movie extends Component {
 
     // Filtering Movies Accordidng Genre
 
-    const filtered = selectedGenere ? allMovies.filter(i => i.genre === selectedGenere.text)
+    const filtered = selectedGenere && selectedGenere.id
+    ? allMovies.filter(i => i.genre === selectedGenere.text)
     : allMovies;
     const movies = Paginate(filtered, currentPage, pageSize);
     return (
