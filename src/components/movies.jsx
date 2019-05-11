@@ -6,7 +6,8 @@ export class Movie extends Component {
     movies: [],
     generes: [],
     pageSize: 3,
-    currentPage: 1
+    currentPage: 1,
+    sortColumn: {path: 'title', order: 'asc'}
   };
 
   componentDidMount() {
@@ -28,7 +29,7 @@ export class Movie extends Component {
         { id: 8, title: "ewd", genre: "Science", stock: 453, rate: 2.5 }
       ],
       generes: [
-        { text: "All Genre" },
+        { text: "All Genre", id: "" },
         { text: "Action", id: 1 },
         { text: "Comedy", id: 2 },
         { text: "Technology", id: 3 },
@@ -41,6 +42,9 @@ export class Movie extends Component {
     const updatedMovies = this.state.movies.filter(m => m.id !== mid);
     this.setState({ movies: updatedMovies });
   };
+  handleSort = sortColumn => {
+    this.setState({ sortColumn });
+  };
   handleToggleLike = movie => {
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
@@ -49,7 +53,6 @@ export class Movie extends Component {
     this.setState({ movies });
   };
   handlePageChange = page => {
-    debugger;
     this.setState({ currentPage: page });
   };
   handleGenereSelet = genere => {
@@ -57,7 +60,7 @@ export class Movie extends Component {
   };
   render() {
     const { pageSize, currentPage,
-       movies: allMovies, selectedGenere } = this.state;
+       movies: allMovies, selectedGenere, sortColumn } = this.state;
     return (
       <React.Fragment>
           <br/>
@@ -78,7 +81,9 @@ export class Movie extends Component {
             OnPageChange={this.handlePageChange}
             currentPage={this.state.currentPage}
             pageSize={this.state.pageSize}
-            selectedGenere={this.state.selectedGenere} />
+            selectedGenere={this.state.selectedGenere}
+            OnSort={this.handleSort}
+            sortColumn={sortColumn} />
           </div>
         </div>
       </React.Fragment>
